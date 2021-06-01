@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include "include/config.h"
 
 int main(int, char**)  {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -6,8 +7,8 @@ int main(int, char**)  {
             "Worm",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
-            640,
-            320,
+            WIDTH * WINDOW_MULTIPLIER,
+            HEIGHT * WINDOW_MULTIPLIER,
             SDL_WINDOW_SHOWN);
 
     SDL_Renderer* renderer = SDL_CreateRenderer(
@@ -29,11 +30,16 @@ int main(int, char**)  {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
         SDL_Rect r;
-        r.x = 0;
-        r.y = 0;
-        r.w = 40;
-        r.h = 40;
-        SDL_RenderFillRect(renderer, &r);
+
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < WIDTH; y++) {
+                r.x = x * WINDOW_MULTIPLIER;
+                r.y = y * WINDOW_MULTIPLIER;
+                r.w = WINDOW_MULTIPLIER;
+                r.h = WINDOW_MULTIPLIER;
+                SDL_RenderFillRect(renderer, &r);
+            }
+        }
         SDL_RenderPresent(renderer);
     }
 
