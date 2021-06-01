@@ -7,6 +7,7 @@
 
 
 #include <vector>
+#include <memory>
 
 class Worm {
 public:
@@ -14,7 +15,7 @@ public:
     Worm(int, int, int);
     bool is_set(int, int);
 private:
-    std::vector<std::pair<int, int>> m_coordinates;
+    std::unique_ptr<std::vector<std::pair<int, int>>> m_coordinates;
 };
 
 

@@ -16,7 +16,7 @@ int main(int, char**)  {
             window, -1, SDL_TEXTUREACCESS_TARGET
             );
 
-    auto worm = new Worm(WIDTH / 2, HEIGHT / 2, 3);
+    Worm worm(WIDTH / 2, HEIGHT / 2, 3);
 
     bool running = true;
     while(true) {
@@ -36,7 +36,7 @@ int main(int, char**)  {
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                if (!worm->is_set(x, y)) continue;
+                if (!worm.is_set(x, y)) continue;
 
                 r.x = x * WINDOW_MULTIPLIER;
                 r.y = y * WINDOW_MULTIPLIER;
