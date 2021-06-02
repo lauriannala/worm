@@ -3,6 +3,7 @@
 //
 
 #include "worm.h"
+#include "include/config.h"
 
 Worm::Worm(int x, int y, int length) {
     m_coordinates = std::make_unique<std::vector<std::pair<int, int>>>();
@@ -56,6 +57,11 @@ void Worm::move() {
                 default:
                     break;
             }
+            
+            if (new_x == WIDTH) new_x = 0;
+            if (new_y == HEIGHT) new_y = 0;
+            if (new_x == -1) new_x = WIDTH;
+            if (new_y == -1) new_y = HEIGHT;
 
             coord = std::pair<int, int>(new_x, new_y);
             first_coordinate = false;
