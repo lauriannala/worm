@@ -24,6 +24,15 @@ bool Worm::is_set(int requested_x, int requested_y) {
 }
 
 void Worm::set_direction(MoveDirection direction) {
+    if (*m_direction == MoveDirection::UP && direction == MoveDirection::DOWN)
+        return;
+    if (*m_direction == MoveDirection::DOWN && direction == MoveDirection::UP)
+        return;
+    if (*m_direction == MoveDirection::RIGHT && direction == MoveDirection::LEFT)
+        return;
+    if (*m_direction == MoveDirection::LEFT && direction == MoveDirection::RIGHT)
+        return;
+
     m_direction = std::make_unique<MoveDirection>(direction);
     printf("Direction set %i \n", direction);
 }
