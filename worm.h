@@ -9,14 +9,23 @@
 #include <vector>
 #include <memory>
 
+enum MoveDirection : int {
+    UP = 0,
+    DOWN = 1,
+    RIGHT = 2,
+    LEFT = 3
+};
+
 class Worm {
 public:
     Worm() = delete;
     Worm(int, int, int);
     bool is_set(int, int);
+    void set_direction(MoveDirection);
+    void move();
 private:
     std::unique_ptr<std::vector<std::pair<int, int>>> m_coordinates;
+    std::unique_ptr<MoveDirection> m_direction;
 };
-
 
 #endif //WORM_WORM_H
