@@ -3,7 +3,7 @@ project(worm)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(worm main.cpp include/config.h worm.cpp worm.h apple.cpp apple.h)
+add_executable(worm src/main.cpp include/config.h src/worm.cpp include/worm.h src/apple.cpp include/apple.h)
 
 INCLUDE(FindPkgConfig)
 

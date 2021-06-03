@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 #include <thread>
-#include "include/config.h"
-#include "worm.h"
-#include "apple.h"
+#include "../include/config.h"
+#include "../include/worm.h"
+#include "../include/apple.h"
 
 int get_random_coordinate(int min, int max);
 
@@ -23,15 +23,15 @@ int main(int, char**)  {
     Worm worm(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
 
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    auto apple_x = []() { return get_random_coordinate(0, WIDTH); };
-    auto apple_y = []() { return get_random_coordinate(0, HEIGHT); };
+    auto apple_x = []() { return get_random_coordinate(0, WIDTH - 1); };
+    auto apple_y = []() { return get_random_coordinate(0, HEIGHT - 1); };
     Apple apple(apple_x(), apple_y());
 
     bool running = true;
 
     bool game_tick;
     int game_tick_counter = 0;
-    int game_tick_schedule = 200;
+    int game_tick_schedule = GAME_TICK_SCHEDULE;
 
     while(true) {
 
@@ -64,14 +64,14 @@ int main(int, char**)  {
         }
         if (!running) break;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(GAME_LOOP_FREQ));
 
         if (game_tick_schedule != 0) {
-            game_tick_schedule -= 100;
+            game_tick_schedule -= GAME_TICK_STEP;
             game_tick = false;
         } else {
             game_tick_counter++;
-            game_tick_schedule = 200;
+            game_tick_schedule = GAME_TICK_SCHEDULE;
             game_tick = true;
         }
 
@@ -86,14 +86,14 @@ int main(int, char**)  {
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                if (!worm.is_set(x, y) && !apple.is_set(x, y)) continue;
-
-                if (worm.has_collisions(x, y)) worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
-
                 if (apple.is_set(x, y) && worm.is_set(x, y)) {
                     worm.grow();
                     apple.reset(apple_x(), apple_y());
                 }
+
+                if (!worm.is_set(x, y) && !apple.is_set(x, y)) continue;
+
+                if (worm.has_collisions(x, y)) worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
 
                 r.x = x * WINDOW_MULTIPLIER;
                 r.y = y * WINDOW_MULTIPLIER;

@@ -2,8 +2,8 @@
 // Created by lauri on 01/06/2021.
 //
 
-#include "worm.h"
-#include "include/config.h"
+#include "../include/worm.h"
+#include "../include/config.h"
 
 Worm::Worm(int x, int y, int length) {
     reset(x, y, length);
@@ -43,7 +43,7 @@ void Worm::move() {
     int previous_x = -1;
     int previous_y = -1;
     std::pair<int, int> new_tail;
-    if (*m_should_grow == true) {
+    if (*m_should_grow) {
         std::copy(m_coordinates->end(), m_coordinates->end(), &new_tail);
     }
     for (auto & coord : *m_coordinates) {
@@ -89,7 +89,7 @@ void Worm::move() {
             coord = std::pair<int, int>(new_x, new_y);
         }
     }
-    if (*m_should_grow == true) {
+    if (*m_should_grow) {
         m_coordinates->emplace_back(new_tail);
         m_should_grow = std::make_unique<bool>(false);
     }
