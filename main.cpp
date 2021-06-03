@@ -2,6 +2,9 @@
 #include <thread>
 #include "include/config.h"
 #include "worm.h"
+#include "apple.h"
+
+int get_random_coordinate(int min, int max);
 
 int main(int, char**)  {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -18,6 +21,11 @@ int main(int, char**)  {
             );
 
     Worm worm(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
+
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    auto apple_x = []() { return get_random_coordinate(0, WIDTH); };
+    auto apple_y = []() { return get_random_coordinate(0, HEIGHT); };
+    Apple apple(apple_x(), apple_y());
 
     bool running = true;
 
@@ -78,9 +86,14 @@ int main(int, char**)  {
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < WIDTH; y++) {
-                if (!worm.is_set(x, y)) continue;
+                if (!worm.is_set(x, y) && !apple.is_set(x, y)) continue;
 
                 if (worm.has_collisions(x, y)) worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
+
+                if (apple.is_set(x, y) && worm.is_set(x, y)) {
+                    worm.grow();
+                    apple.reset(apple_x(), apple_y());
+                }
 
                 r.x = x * WINDOW_MULTIPLIER;
                 r.y = y * WINDOW_MULTIPLIER;
@@ -96,4 +109,8 @@ int main(int, char**)  {
 
     SDL_DestroyWindow(window);
     return 0;
+}
+
+int get_random_coordinate(int min, int max) {
+    return min + rand() % static_cast<int>(max - min + 1);
 }

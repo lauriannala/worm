@@ -42,6 +42,10 @@ void Worm::move() {
     bool first_coordinate = true;
     int previous_x = -1;
     int previous_y = -1;
+    std::pair<int, int> new_tail;
+    if (*m_should_grow == true) {
+        std::copy(m_coordinates->end(), m_coordinates->end(), &new_tail);
+    }
     for (auto & coord : *m_coordinates) {
 
         if (first_coordinate) {
@@ -85,6 +89,10 @@ void Worm::move() {
             coord = std::pair<int, int>(new_x, new_y);
         }
     }
+    if (*m_should_grow == true) {
+        m_coordinates->emplace_back(new_tail);
+        m_should_grow = std::make_unique<bool>(false);
+    }
 }
 
 void Worm::reset(int x, int y, int length) {
@@ -95,4 +103,9 @@ void Worm::reset(int x, int y, int length) {
     }
 
     m_direction = std::make_unique<MoveDirection>(MoveDirection::UP);
+    m_should_grow = std::make_unique<bool>(false);
+}
+
+void Worm::grow() {
+    m_should_grow = std::make_unique<bool>(true);
 }

@@ -25,9 +25,13 @@ public:
     void set_direction(MoveDirection);
     void reset(int x, int y, int length);
     void move();
+
+    void grow();
+
 private:
     std::unique_ptr<std::vector<std::pair<int, int>>> m_coordinates;
     std::unique_ptr<MoveDirection> m_direction;
+    std::unique_ptr<bool> m_should_grow;
 };
 
 #endif //WORM_WORM_H

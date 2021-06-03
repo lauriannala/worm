@@ -11,6 +11,6 @@ constexpr int WINDOW_MULTIPLIER = 10;
 
 constexpr int WORM_INIT_X = WIDTH / 2;
 constexpr int WORM_INIT_Y = HEIGHT / 2;
-const int WORM_INIT_LENGTH = 15;
+constexpr int WORM_INIT_LENGTH = 2;
 
 #endif //WORM_CONFIG_H
