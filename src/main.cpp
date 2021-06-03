@@ -30,7 +30,6 @@ int main(int, char**)  {
     bool running = true;
 
     bool game_tick;
-    int game_tick_counter = 0;
     int game_tick_schedule = GAME_TICK_SCHEDULE;
 
     while(true) {
@@ -70,14 +69,11 @@ int main(int, char**)  {
             game_tick_schedule -= GAME_TICK_STEP;
             game_tick = false;
         } else {
-            game_tick_counter++;
             game_tick_schedule = GAME_TICK_SCHEDULE;
             game_tick = true;
         }
 
         if (!game_tick) continue;
-
-        printf("game tick %i \n", game_tick_counter);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderClear(renderer);
