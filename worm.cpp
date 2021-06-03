@@ -6,14 +6,7 @@
 #include "include/config.h"
 
 Worm::Worm(int x, int y, int length) {
-    m_coordinates = std::make_unique<std::vector<std::pair<int, int>>>();
-    m_coordinates->emplace_back(x, y);
-
-    for (int i = 0; i <= length; i++) {
-        m_coordinates->emplace_back(x, y + i);
-    }
-
-    m_direction = std::make_unique<MoveDirection>(MoveDirection::UP);
+    reset(x, y, length);
 }
 
 bool Worm::is_set(int requested_x, int requested_y) {
@@ -21,6 +14,14 @@ bool Worm::is_set(int requested_x, int requested_y) {
         return pair.first == requested_x && pair.second == requested_y;
     };
     return std::any_of(m_coordinates->begin(), m_coordinates->end(), pred);
+}
+
+bool Worm::has_collisions(int requested_x, int requested_y) {
+    auto pred = [requested_x, requested_y](const std::pair<int, int> &pair) {
+        return pair.first == requested_x && pair.second == requested_y;
+    };
+    auto matches = std::count_if(m_coordinates->begin(), m_coordinates->end(), pred);
+    return matches > 1;
 }
 
 void Worm::set_direction(MoveDirection direction) {
@@ -84,4 +85,14 @@ void Worm::move() {
             coord = std::pair<int, int>(new_x, new_y);
         }
     }
+}
+
+void Worm::reset(int x, int y, int length) {
+    m_coordinates = std::make_unique<std::vector<std::pair<int, int>>>();
+
+    for (int i = 0; i <= (length - 1); i++) {
+        m_coordinates->emplace_back(x, y + i);
+    }
+
+    m_direction = std::make_unique<MoveDirection>(MoveDirection::UP);
 }

@@ -17,7 +17,7 @@ int main(int, char**)  {
             window, -1, SDL_TEXTUREACCESS_TARGET
             );
 
-    Worm worm(WIDTH / 2, HEIGHT / 2, 3);
+    Worm worm(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
 
     bool running = true;
 
@@ -79,6 +79,8 @@ int main(int, char**)  {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < WIDTH; y++) {
                 if (!worm.is_set(x, y)) continue;
+
+                if (worm.has_collisions(x, y)) worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
 
                 r.x = x * WINDOW_MULTIPLIER;
                 r.y = y * WINDOW_MULTIPLIER;
