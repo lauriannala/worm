@@ -35,7 +35,6 @@ void Worm::set_direction(MoveDirection direction) {
         return;
 
     m_direction = std::make_unique<MoveDirection>(direction);
-    printf("Direction set %i \n", direction);
 }
 
 void Worm::move() {

@@ -31,6 +31,7 @@ int main(int, char**)  {
 
     bool game_tick;
     int game_tick_schedule = GAME_TICK_SCHEDULE;
+    int score = 0;
 
     while(true) {
 
@@ -85,11 +86,16 @@ int main(int, char**)  {
                 if (apple.is_set(x, y) && worm.is_set(x, y)) {
                     worm.grow();
                     apple.reset(apple_x(), apple_y());
+                    score += 10;
+                    printf("SCORE: %i\n", score);
                 }
 
                 if (!worm.is_set(x, y) && !apple.is_set(x, y)) continue;
 
-                if (worm.has_collisions(x, y)) worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
+                if (worm.has_collisions(x, y)) {
+                    worm.reset(WORM_INIT_X, WORM_INIT_Y, WORM_INIT_LENGTH);
+                    score = 0;
+                }
 
                 r.x = x * WINDOW_MULTIPLIER;
                 r.y = y * WINDOW_MULTIPLIER;
