@@ -70,7 +70,7 @@ void Worm::move() {
                 default:
                     break;
             }
-            
+
             if (new_x == WIDTH) new_x = 0;
             if (new_y == HEIGHT) new_y = 0;
             if (new_x == -1) new_x = WIDTH;
