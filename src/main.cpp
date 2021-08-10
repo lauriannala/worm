@@ -82,7 +82,7 @@ int main(int, char**)  {
         SDL_Rect r;
 
         for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < WIDTH; y++) {
+            for (int y = 0; y < HEIGHT; y++) {
                 if (apple.is_set(x, y) && worm.is_set(x, y)) {
                     worm.grow();
                     apple.reset(apple_x(), apple_y());
